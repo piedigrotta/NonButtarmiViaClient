@@ -7,7 +7,7 @@
  */
 
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View} from 'react-native';
+import {Platform, StyleSheet, Text, View, FlatList} from 'react-native';
 
 
 const instructions = Platform.select({
@@ -36,7 +36,7 @@ componentDidMount(){
     })
   })
   .catch(error=>console.log(error)) //to catch the errors if any
-  }
+}
 
 
   render() {
@@ -44,10 +44,24 @@ componentDidMount(){
     return (
       <View style={styles.container}>
         <Text style={styles.welcome}>Questo è il dataSource</Text>
-        <Text style={styles.instructions}>{dataSource}</Text>
+        <FlatList
+      bounces={false}
+      data={dataSource}
+      keyExtractor={(item) => item.name}
+      renderItem={({ item }) => this.renderMerchantItem(item)}
+    />
       </View>
     );
   }
+
+  renderMerchantItem = (item) => (
+    <View style={styles.merchantItem}>
+      <Text>{item.name}</Text>
+      <Text>{item.address}</Text>
+      <Text>{item.times}</Text>
+      <Text>{item.offer}</Text>
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
@@ -56,6 +70,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
+  },
+  merchantItem: {
   },
   welcome: {
     fontSize: 20,
