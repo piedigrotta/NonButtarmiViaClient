@@ -7,7 +7,7 @@
  */
 
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View, FlatList} from 'react-native';
+import {Platform, StyleSheet, Text, View, FlatList, RefreshControl} from 'react-native';
 
 
 const instructions = Platform.select({
@@ -23,19 +23,12 @@ type State = {
 };
 export default class App extends Component<Props, State> {
 state = {
+  isRefreshing: false,
   dataSource: null
 };
 
 componentDidMount(){
-  fetch("http://172.20.135.28:8080/list")
-  .then(response => response.json())
-  .then((responseJson)=> {
-    console.log('response: ' + responseJson);
-    this.setState({
-     dataSource: responseJson
-    })
-  })
-  .catch(error=>console.log(error)) //to catch the errors if any
+  this.loadMerchants();
 }
 
 
@@ -43,16 +36,34 @@ componentDidMount(){
    const {dataSource} = this.state;
     return (
       <View style={styles.container}>
-        <Text style={styles.welcome}>Questo è il dataSource</Text>
         <FlatList
       bounces={false}
       data={dataSource}
       keyExtractor={(item) => item.name}
       renderItem={({ item }) => this.renderMerchantItem(item)}
+      refreshControl={
+        <RefreshControl
+          refreshing={this.state.isRefreshing}
+          onRefresh={this.loadMerchants}
+        />
+      }
     />
       </View>
     );
   }
+
+  loadMerchants = (item) => (
+    fetch("http://172.20.135.28:8080/list")
+    .then(response => response.json())
+    .then((responseJson)=> {
+      console.log('response: ' + responseJson);
+      this.setState({
+        isRefreshing: false,
+       dataSource: responseJson
+      })
+    })
+    .catch(error=>console.log(error)) //to catch the errors if any
+  );
 
   renderMerchantItem = (item) => (
     <View style={styles.merchantItem}>
