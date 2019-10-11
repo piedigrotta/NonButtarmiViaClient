@@ -18,16 +18,20 @@ const instructions = Platform.select({
 });
 
 type Props = {};
-export default class App extends Component<Props> {
-
+type State = {
+  dataSource: any,
+};
+export default class App extends Component<Props, State> {
+state = {
+  dataSource: null
+};
 
 componentDidMount(){
   fetch("http://172.20.135.28:8080/list")
   .then(response => response.json())
   .then((responseJson)=> {
-    console.log('respoonse: ' + responseJson);
+    console.log('response: ' + responseJson);
     this.setState({
-     loading: false,
      dataSource: responseJson
     })
   })
@@ -36,11 +40,11 @@ componentDidMount(){
 
 
   render() {
+   const {dataSource} = this.state;
     return (
       <View style={styles.container}>
-        <Text style={styles.welcome}>Welcome to React Native!ZZZZ</Text>
-        <Text style={styles.instructions}>To get started, edit App.js</Text>
-        <Text style={styles.instructions}>{instructions}</Text>
+        <Text style={styles.welcome}>Questo è il dataSource</Text>
+        <Text style={styles.instructions}>{dataSource}</Text>
       </View>
     );
   }
