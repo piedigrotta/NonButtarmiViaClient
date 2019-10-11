@@ -7,7 +7,7 @@
  */
 
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View, FlatList, RefreshControl} from 'react-native';
+import {Platform, StyleSheet, Text, View, FlatList, RefreshControl, Image} from 'react-native';
 
 
 const instructions = Platform.select({
@@ -17,24 +17,36 @@ const instructions = Platform.select({
     'Shake or press menu button for dev menu',
 });
 
+
+const images = {
+  arrow_back_white: require('logo.png')
+}
+
 type Props = {};
 type State = {
   dataSource: any,
 };
 export default class App extends Component<Props, State> {
 state = {
+  splashPage: false,
   isRefreshing: false,
   dataSource: null
 };
 
 componentDidMount(){
+  this.setState({splashPage: true})
   this.loadMerchants();
 }
 
-
   render() {
-   const {dataSource} = this.state;
+   const {dataSource, splashPage} = this.state;
+
+   if(splashPage == true) {
+     return <Image source={images.arrow_back_white} />
+   }
     return (
+
+
       <View style={styles.container}>
         {this.renderTitleBar()}
         <FlatList style={styles.merchantList}
@@ -53,14 +65,15 @@ componentDidMount(){
     );
   }
 
-  loadMerchants = (item) => (
+  loadMerchants = (item) => (    
     fetch("http://172.20.135.28:8080/list")
     .then(response => response.json())
     .then((responseJson)=> {
       console.log('response: ' + responseJson);
       this.setState({
+        splashPage: false,
         isRefreshing: false,
-       dataSource: responseJson
+        dataSource: responseJson
       })
     })
     .catch(error=>console.log(error)) //to catch the errors if any
