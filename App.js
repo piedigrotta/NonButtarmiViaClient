@@ -42,7 +42,11 @@ componentDidMount(){
    const {dataSource, splashPage} = this.state;
 
    if(splashPage == true) {
-     return <Image source={images.arrow_back_white} />
+     return(
+       <View style={styles.containerSplash}>
+         <Image style={{flex: 1, width: null, height: null, resizeMode: 'contain'}} source={images.arrow_back_white} />
+       </View>
+     )
    }
     return (
 
@@ -102,6 +106,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#F5FCFF',
+  },
+  containerSplash: {
+    flex: 1,  
+    backgroundColor: '#fae8dc',
   },
 
   merchantList: {
