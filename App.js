@@ -68,10 +68,10 @@ componentDidMount(){
 
   renderMerchantItem = (item) => (
     <View style={styles.merchantItem}>
-      <Text>{item.name}</Text>
+      <Text style={{fontSize:20, color: 'black', fontWeight: 'bold'}}>{item.name}</Text>
+      <Text style={{fontSize:16, color: '#d3a685' }}>{item.offer}</Text>
       <Text>{item.address}</Text>
       <Text>{item.times}</Text>
-      <Text>{item.offer}</Text>
     </View>
   );
 
