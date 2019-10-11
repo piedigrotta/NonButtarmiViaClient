@@ -9,6 +9,7 @@
 import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View} from 'react-native';
 
+
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
   android:
@@ -18,6 +19,22 @@ const instructions = Platform.select({
 
 type Props = {};
 export default class App extends Component<Props> {
+
+
+componentDidMount(){
+  fetch("http://172.20.135.28:8080/list")
+  .then(response => response.json())
+  .then((responseJson)=> {
+    console.log('respoonse: ' + responseJson);
+    this.setState({
+     loading: false,
+     dataSource: responseJson
+    })
+  })
+  .catch(error=>console.log(error)) //to catch the errors if any
+  }
+
+
   render() {
     return (
       <View style={styles.container}>
