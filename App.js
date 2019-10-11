@@ -36,7 +36,8 @@ componentDidMount(){
    const {dataSource} = this.state;
     return (
       <View style={styles.container}>
-        <FlatList
+        {this.renderTitleBar()}
+        <FlatList style={styles.merchantList}
       bounces={false}
       data={dataSource}
       keyExtractor={(item) => item.name}
@@ -73,25 +74,38 @@ componentDidMount(){
       <Text>{item.offer}</Text>
     </View>
   );
+
+  renderTitleBar = () => {
+    return (
+      <View style={styles.headerStyle}>
+        <Text style={styles.titleStyle}>Non buttarmi via!</Text>
+      </View>
+    );
+  };
+  
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
     backgroundColor: '#F5FCFF',
   },
+
+  merchantList: {
+    flex:6,
+  },
   merchantItem: {
+    padding: 12,
+    flex:1 ,
   },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
+  headerStyle: {
+    padding: 12,
+    backgroundColor: '#cebbaa',
   },
-  instructions: {
+  titleStyle: {
     textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
+    color: '#474543',
+    fontSize: 18,
+    fontWeight: 'bold',
   },
 });
