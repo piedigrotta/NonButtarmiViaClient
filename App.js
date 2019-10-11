@@ -35,7 +35,8 @@ state = {
 
 componentDidMount(){
   this.setState({splashPage: true})
-  this.loadMerchants();
+  setTimeout(this.loadMerchants, 2000);
+  // this.loadMerchants();
 }
 
   render() {
